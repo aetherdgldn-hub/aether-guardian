@@ -18,7 +18,7 @@ const x402Gateway = {
             message: 'Payment Required for Aether-Guardian Security Audit',
             paymentOptions: {
                 usdc: {
-                    address: '8sUnNU6WBD2SYapCE12S7LwH1b8zWoniytze7ifWwXCM', // Placeholder for Aether Labs Treasury
+                    address: 'DmAt6d4q8Cbwu2jRXgJ99CXeQzjFhiDuthLmYwcGYrfx', // DG LDN Vault
                     amount: 0.10
                 }
             },
