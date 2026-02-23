@@ -1,0 +1,28 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Python syntax check
+        run: |
+          set -e
+          files=$(find . -type f -name '*.py')
+          if [ -n "$files" ]; then
+            python -m py_compile $files
+          fi
+      - name: Shell syntax check
+        run: |
+          set -e
+          files=$(find . -type f -name '*.sh')
+          if [ -n "$files" ]; then
+            for f in $files; do bash -n "$f"; done
+          fi

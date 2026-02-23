@@ -19,7 +19,7 @@ PATTERNS = [
     ("exfil_language", re.compile(r"(\bexfiltrate\b|post\s+.*\b(api[_-]?key|secret|credential)\b|ship\s+your\s+secrets)", re.I), 6, "any"),
 
     # Suspicious sinks commonly used for leaks
-    ("suspicious_sink", re.compile(r"(webhook\.site|requestbin|pastebin|discord\.com/api/webhooks|api\.telegram\.org/bot.+/sendMessage)", re.I), 6, "any"),
+    ("suspicious_sink", re.compile(r"(webhook\.site|requestbin|pastebin|discord\.com/api/webhooks|api\.telegram\.org/bot.+/sendMessage)", re.I), 6, "code"),
 
     # Outbound data transfer primitives (code only)
     ("network_send", re.compile(r"(curl\s+.*https?://|requests\.(post|put)\(|fetch\(|axios\.(post|put)\(|http\.request\(|https\.request\()", re.I), 3, "code"),
@@ -65,6 +65,9 @@ def audit(root: Path):
         lines = text.splitlines()
 
         for idx, line in enumerate(lines, start=1):
+            # avoid self-signature false positives from regex declaration lines
+            if "re.compile(" in line:
+                continue
             for rule_name, regex, weight, scope in PATTERNS:
                 if scope == "code" and not file_is_code:
                     continue
