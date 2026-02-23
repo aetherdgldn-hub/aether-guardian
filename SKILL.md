@@ -5,7 +5,9 @@ description: Audit third-party or local AgentSkills/repositories for secret-exfi
 
 # Skill Guardian
 
-Run a pre-install security audit before installing any external skill.
+Run two security layers:
+1. Pre-install audit for external skills.
+2. Host/config posture audit for OpenClaw runtime hardening.
 
 ## Workflow
 
@@ -40,8 +42,25 @@ Examples:
 - `bash skills/skill-guardian/scripts/safe_install.sh https://github.com/peterskoett/self-improving-agent`
 - `bash skills/skill-guardian/scripts/safe_install.sh <repo> my-skill-name --allow-review`
 
+## Runtime Security Workflow (OpenClaw Host)
+
+1. Audit host posture:
+   - `python3 scripts/audit_openclaw_host.py`
+2. Audit OpenClaw config:
+   - `python3 scripts/audit_openclaw_config.py <config-path>`
+3. Audit subagent sandbox policy:
+   - `python3 scripts/audit_subagent_sandbox.py <config-path>`
+4. Generate daily markdown report:
+   - `bash scripts/daily_guardian_review.sh <config-path>`
+
+Use PASS/WARN/FAIL to prioritize fixes. Do not claim secure-by-default when WARN/FAIL remains.
+
 ## Resources
 
 - Scanner script: `scripts/audit_skill.py`
 - Safe installer: `scripts/safe_install.sh`
+- Host audit: `scripts/audit_openclaw_host.py`
+- Config audit: `scripts/audit_openclaw_config.py`
+- Sandbox audit: `scripts/audit_subagent_sandbox.py`
+- Daily review: `scripts/daily_guardian_review.sh`
 - Risk rubric: `references/risk-rubric.md`
