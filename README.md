@@ -1,10 +1,20 @@
-# Aether-Guardian
-Zero-Trust Security & Exfiltration Scanner for AI Agents.
+# aether-guardian
 
-## Overview
-Aether-Guardian is a tactical security layer designed to protect AI agents from malicious skills and exfiltration attempts.
+Working OpenClaw skill-security scanner.
 
-## Features
-- **YARA-based Scanning:** Detects suspicious patterns in skill directories.
-- **Zero-Trust Baseline:** Assumes all external skills are potentially malicious until audited.
-- **x402 Micropayments:** Programmatic security audits via the Agent-to-Agent economy.
+## What this repo contains
+- `SKILL.md` — skill definition for OpenClaw
+- `scripts/audit_skill.py` — exfiltration risk scanner (ALLOW/REVIEW/BLOCK)
+- `scripts/safe_install.sh` — clone → scan → install only when safe
+- `references/risk-rubric.md` — scoring rules
+
+## Quick use
+```bash
+python3 scripts/audit_skill.py /path/to/repo --json
+bash scripts/safe_install.sh https://github.com/owner/repo skill-name
+```
+
+## Verdicts
+- ALLOW: install
+- REVIEW: require explicit override
+- BLOCK: deny by default
